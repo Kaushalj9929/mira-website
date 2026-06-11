@@ -56,6 +56,7 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+html, body { max-width: 100%; overflow-x: hidden; }
 body {
   font-family: var(--font-sans);
   background: var(--bg);
@@ -205,6 +206,109 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* Mobile navigation controls */
+.mobile-menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  z-index: 102;
+}
+.mobile-menu-toggle span {
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--ink);
+  transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.18s ease;
+}
+.mobile-menu-toggle span:nth-child(1) { transform: translateY(-7px); }
+.mobile-menu-toggle span:nth-child(3) { transform: translateY(7px); }
+.mobile-menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: rotate(45deg); }
+.mobile-menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.mobile-menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: rotate(-45deg); }
+
+/* Mobile navigation panel */
+.mobile-nav-panel {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  padding: 0 20px 18px;
+  background: rgba(250, 251, 253, 0.96);
+  border-bottom: 1px solid var(--line-2);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-12px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease, visibility 0.22s ease;
+}
+.mobile-nav-list {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10px 0 0;
+  display: grid;
+  gap: 8px;
+}
+.mobile-nav-list a {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius);
+  color: var(--ink-2);
+  font-size: 15px;
+  font-weight: 600;
+}
+.mobile-nav-list > a {
+  padding: 12px 14px;
+}
+.mobile-nav-list a:hover,
+.mobile-nav-list a.active {
+  color: var(--blue);
+  background: var(--blue-tint);
+}
+.mobile-nav-actions {
+  display: grid;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line-2);
+  margin-top: 4px;
+}
+.mobile-nav-actions .btn {
+  width: 100%;
+  justify-content: center;
+  min-height: 48px;
+}
+
+@media (max-width: 767.98px) {
+  .nav { position: sticky; }
+  .nav-links,
+  .nav-cta {
+    display: none;
+  }
+  .mobile-menu-toggle,
+  .mobile-nav-panel {
+    display: flex;
+  }
+  .mobile-nav-panel {
+    flex-direction: column;
+  }
+  .nav.is-mobile-open .mobile-nav-panel {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 }
 
 .btn {
@@ -3318,7 +3422,8 @@ footer {
 <nav class="nav">
   <div class="nav-inner">
     <a href="#home" class="logo-wrap" data-nav="home" style="display:inline-flex;align-items:center;">
-      <img src="logo.png"/>
+      <img src="logo.png" alt="A5E Consulting">
+    </a>
     <div class="nav-links">
       <a href="#product" data-nav="home">Migration</a>
       <a href="#clean-core" data-nav="cleancore">Clean Core</a>
@@ -3329,6 +3434,23 @@ footer {
     <div class="nav-cta" id="navCta">
       <a href="#mira-ai" class="btn btn-ghost" data-nav="playground">Try MIRA AI</a>
       <a href="#contact" class="btn btn-primary">Contact us</a>
+    </div>
+    <button class="mobile-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileNavPanel">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="mobile-nav-panel" id="mobileNavPanel" aria-hidden="true">
+    <div class="mobile-nav-list">
+      <a href="#product" data-nav="home">Migration</a>
+      <a href="#clean-core" data-nav="cleancore">Clean Core</a>
+      <a href="#how">How it works</a>
+      <a href="#compare">Why A5E</a>
+      <div class="mobile-nav-actions">
+        <a href="#mira-ai" class="btn btn-ghost" data-nav="playground">Try MIRA AI</a>
+        <a href="#contact" class="btn btn-primary">Contact us</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -3353,12 +3475,12 @@ footer {
           </a>
           <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
         </div>
-        <div class="hero-trust reveal in reveal-delay-3">
+       <!-- <div class="hero-trust reveal in reveal-delay-3">
           <div class="hero-trust-avatars">
             <span></span><span></span><span></span><span></span>
           </div>
           <span>Trusted by enterprise SAP teams running <strong style="color:var(--ink-2)">100M+ LOC</strong></span>
-        </div>
+        </div>-->
       </div>
 
       <div class="hero-viz">
@@ -3443,7 +3565,7 @@ footer {
     </div>
   </div>
 </section>
-
+<!--
 <section class="trust-bar">
   <div class="container">
     <p class="trust-label">Built for the world's most complex ABAP estates</p>
@@ -3456,7 +3578,7 @@ footer {
       <span class="trust-item">Public Sector</span>
     </div>
   </div>
-</section>
+</section> -->
 
 <section class="problem">
   <div class="container">
@@ -3925,7 +4047,7 @@ footer {
       </div>
       <div class="compare-row">
         <div class="compare-cell feature">Time to first remediation</div>
-        <div class="compare-cell"><span class="compare-mark no">Weeks</span></div>
+        <div class="compare-cell"><span class="compare-mark no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Weeks</span></div>
         <div class="compare-cell"><span class="compare-mark yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Same day</span></div>
       </div>
     </div>
@@ -4533,11 +4655,7 @@ ENDLOOP."></textarea>
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 A5E Consulting &middot; SAP Clean Core &amp; S/4HANA Migration &middot; powered by MIRA AI</span>
-      <div class="links">
-        <a href="#clean-core">Clean Core</a>
-        <a href="#mira-ai">MIRA AI</a>
-        <a href="#contact">Contact</a>
-      </div>
+      
     </div>
   </div>
 </footer>
@@ -5246,6 +5364,50 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
+// ============================================================
+// MOBILE NAVIGATION
+// ============================================================
+const navBar = document.querySelector('.nav');
+const mobileMenuButton = document.querySelector('.mobile-menu-toggle');
+const mobileNavPanel = document.getElementById('mobileNavPanel');
+
+function setMobileMenu(open) {
+  if (!navBar || !mobileMenuButton || !mobileNavPanel) return;
+  navBar.classList.toggle('is-mobile-open', open);
+  mobileMenuButton.setAttribute('aria-expanded', String(open));
+  mobileMenuButton.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+  mobileNavPanel.setAttribute('aria-hidden', String(!open));
+}
+
+function closeMobileMenu() {
+  setMobileMenu(false);
+}
+
+if (mobileMenuButton && mobileNavPanel) {
+  mobileMenuButton.addEventListener('click', () => {
+    const isOpen = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+    setMobileMenu(!isOpen);
+  });
+
+  mobileNavPanel.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  document.addEventListener('click', event => {
+    if (!navBar.classList.contains('is-mobile-open')) return;
+    if (navBar.contains(event.target)) return;
+    closeMobileMenu();
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMobileMenu();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) closeMobileMenu();
+  });
+}
+
 // ============================================================
 // SPA ROUTER
 // ============================================================
