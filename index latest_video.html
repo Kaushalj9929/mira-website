@@ -260,14 +260,17 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   display: grid;
   gap: 8px;
 }
+
 .mobile-nav-list a {
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  border-radius: var(--radius);
-  color: var(--ink-2);
-  font-size: 15px;
-  font-weight: 600;
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 600;
 }
 .mobile-nav-list > a {
   padding: 12px 14px;
@@ -911,11 +914,13 @@ section { position: relative; }
     linear-gradient(180deg, #f8faff, #eef3ff);
   border: 1px solid rgba(40, 81, 255, 0.10);
 }
-.video-frame video {
+.video-frame video,
+.video-frame iframe {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
+  border: 0;
 }
 .video-frame::before {
   content: '';
@@ -3576,6 +3581,99 @@ footer {
 }
 .hidden { display: none !important; }
 
+/* ==========================================
+   BACK TO TOP
+========================================== */
+
+.back-to-top {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border: 2px solid #000;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+
+  color: #000;
+  cursor: pointer;
+
+  z-index: 999;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: translateY(12px);
+
+  transition:
+    width .35s cubic-bezier(.4,0,.2,1),
+    opacity .35s ease,
+    transform .35s ease,
+    border-radius .35s ease;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+/*
+.back-to-top .arrow {
+  font-size: 20px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transform: translateY(2px);
+
+}*/
+
+.back-to-top .label {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  transition: opacity .25s ease;
+}
+
+.back-to-top:hover {
+  width: 190px;
+}
+
+.back-to-top:hover .label {
+  opacity: 1;
+  width: auto;
+}
+
+@media (max-width: 768px) {
+  .back-to-top {
+    right: 20px;
+    bottom: 20px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .back-to-top:hover {
+    width: 52px;
+  }
+
+  .back-to-top .label {
+    display: none;
+  }
+}
+
 /* ============================================================
    MERGED / SPA ADDITIONS (A5E Consulting)
    ============================================================ */
@@ -3719,9 +3817,9 @@ footer {
       </div>
 
       <div class="hero-video reveal in reveal-delay-1">
-        <div class="video-card" data-video-placeholder>
+        <div class="video-card" data-video-placeholder data-video-src="">
           <div class="video-frame">
-            <!-- Future video: replace this placeholder frame with a self-hosted MP4.
+            <!-- Set data-video-src="https://..." on this .video-card to enable the video or Drive preview on click.
             <video controls preload="none" poster="images/mira-product-animation-poster.jpg">
               <source src="videos/mira-product-animation.mp4" type="video/mp4">
             </video>
@@ -3796,9 +3894,9 @@ footer {
       <div class="video-copy reveal">
         <h2>What is <em>MIRA?</em></h2>
       </div>
-      <div class="video-card reveal reveal-delay-1" data-video-placeholder>
+      <div class="video-card reveal reveal-delay-1" data-video-placeholder data-video-src="">
         <div class="video-frame">
-          <!-- Future video: add the self-hosted MP4 source for the What is MIRA? overview here.
+          <!-- Set data-video-src="https://..." on this .video-card to enable the video or Drive preview on click.
           <video controls preload="none" poster="images/what-is-mira-poster.jpg">
             <source src="videos/what-is-mira.mp4" type="video/mp4">
           </video>
@@ -4015,9 +4113,9 @@ footer {
           <h2>Watch custom code become <em>S/4HANA-ready</em>.</h2>
           <p>A future demo video can show the same flow explained above: paste ECC ABAP, let MIRA AI rewrite it, and review the migration changes before moving into your transport path.</p>
         </div>
-        <div class="video-card reveal reveal-delay-1" data-video-placeholder>
+        <div class="video-card reveal reveal-delay-1" data-video-placeholder data-video-src="">
           <div class="video-frame">
-            <!-- Future video: add the self-hosted MP4 source for the migration demo here.
+            <!-- Set data-video-src="https://..." on this .video-card to enable the video or Drive preview on click.
             <video controls preload="none" poster="images/migration-demo-poster.jpg">
               <source src="videos/migration-demo.mp4" type="video/mp4">
             </video>
@@ -4500,9 +4598,9 @@ footer {
         <h2>See the <em>137+ rules</em> analysis in motion.</h2>
         <p>A future demo video can show how MIRA AI checks each custom object against the Clean Core ruleset, highlights findings, and turns audit evidence into clear remediation steps.</p>
       </div>
-      <div class="video-card reveal reveal-delay-1" data-video-placeholder>
+      <div class="video-card reveal reveal-delay-1" data-video-placeholder data-video-src="">
         <div class="video-frame">
-          <!-- Future video: add the self-hosted MP4 source for the Clean Core demo here.
+          <!-- Set data-video-src="https://..." on this .video-card to enable the video or Drive preview on click.
           <video controls preload="none" poster="images/clean-core-demo-poster.jpg">
             <source src="videos/clean-core-demo.mp4" type="video/mp4">
           </video>
@@ -4932,7 +5030,11 @@ ENDLOOP."></textarea>
     </div>
   </div>
 </footer>
-
+<!-- Back To Top Button -->
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+  <!--<span class="arrow">↑</span>-->
+  <span class="label">BACK TO TOP</span>
+</button>
 <script>
 const stateOld = document.getElementById('stateOld');
 const stateNew = document.getElementById('stateNew');
@@ -5683,18 +5785,72 @@ if (mobileMenuButton && mobileNavPanel) {
 }
 
 // ============================================================
-// FUTURE SELF-HOSTED VIDEO PLACEHOLDERS
+// FUTURE VIDEO PLACEHOLDERS
 // ============================================================
+function getGoogleDrivePreviewUrl(url) {
+  try {
+    const parsed = new URL(url);
+    const hostname = parsed.hostname.toLowerCase();
+    if (hostname.includes('drive.google.com')) {
+      if (parsed.pathname.startsWith('/file/d/')) {
+        const id = parsed.pathname.split('/')[3];
+        return `https://drive.google.com/file/d/${id}/preview`;
+      }
+      if (parsed.pathname === '/open' && parsed.searchParams.has('id')) {
+        return `https://drive.google.com/file/d/${parsed.searchParams.get('id')}/preview`;
+      }
+      if (parsed.pathname === '/uc' && parsed.searchParams.has('id')) {
+        return `https://drive.google.com/file/d/${parsed.searchParams.get('id')}/preview`;
+      }
+    }
+  } catch (error) {
+    return url;
+  }
+  return url;
+}
+
 document.querySelectorAll('[data-video-placeholder]').forEach(card => {
   const button = card.querySelector('.video-play-button');
   if (!button) return;
 
   button.addEventListener('click', () => {
-    const video = card.querySelector('video');
-    if (!video) return;
+    let media = card.querySelector('video, iframe');
+    if (!media) {
+      const src = (card.dataset.videoSrc || '').trim();
+      if (!src) return;
+
+      const videoFrame = card.querySelector('.video-frame');
+      const placeholder = card.querySelector('.video-placeholder');
+      if (!videoFrame || !placeholder) return;
+
+      const driveLink = src.includes('drive.google.com') || src.includes('docs.google.com');
+      if (driveLink) {
+        media = document.createElement('iframe');
+        media.src = getGoogleDrivePreviewUrl(src);
+        media.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
+        media.allowFullscreen = true;
+      } else {
+        media = document.createElement('video');
+        media.controls = true;
+        media.preload = 'none';
+        media.playsInline = true;
+
+        const source = document.createElement('source');
+        source.src = src;
+        source.type = 'video/mp4';
+        media.appendChild(source);
+      }
+
+      media.style.width = '100%';
+      media.style.height = '100%';
+      media.style.display = 'block';
+      videoFrame.insertBefore(media, placeholder);
+    }
 
     card.classList.add('is-video-active');
-    video.play();
+    if (typeof media.play === 'function') {
+      media.play().catch(() => {});
+    }
   });
 });
 
@@ -5748,5 +5904,27 @@ document.addEventListener('click', e => {
 document.addEventListener('DOMContentLoaded', route);
 </script>
 
+<script>
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+
+  if (window.scrollY > window.innerHeight * 2) {
+    backToTop.classList.add('show');
+  } else {
+    backToTop.classList.remove('show');
+  }
+
+});
+
+backToTop.addEventListener('click', () => {
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+});
+</script>
 </body>
 </html>
